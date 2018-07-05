@@ -44,15 +44,20 @@ class Gambler:
         print("Current estimators of the mean for each slot: " + str(generateMeanKnowledge))
 
         bestKnown = generateMeanKnowledge.index(max(generateMeanKnowledge))
-        print("The gunslinger will try slot (" + str(bestKnown) + ")")
+        print("The best known slot is slot (" + str(bestKnown) + ").")
 
         #Here is the famous 1-|epsilon| policy
+        if max(generateMeanKnowledge) < 50:
+            action = np.random.randint(0,self.Casino.totalNumSlots)
+            print("The gunslinger is actually going for slot (" + str(action) + ").")
+            reward = self.Casino.action(action)
 
-        if np.random.rand(1)<(1-(self.Epsilon/(1+sum(self.KnowledgeBase.slotRollNumbers)))):
+        elif np.random.rand(1)<(1-(self.Epsilon/(1+sum(self.KnowledgeBase.slotRollNumbers)))):
             reward = self.Casino.action(bestKnown)
+
         else:
             action = np.random.randint(0,self.Casino.totalNumSlots)
-            print("The gunslinger is actually going for slot (" + str(action) + ")")
+            print("The gunslinger is actually going for slot (" + str(action) + ").")
             reward = self.Casino.action(action)
 
         self.Wallet += sum(reward)
@@ -66,7 +71,7 @@ def main():
     Wallet = int(input("How much money is the gunslinger rolling with? "))
     GambleCost = 50
     print("The cost to roll is 50 big ones.")
-    Gunslinger = Gambler(Casino, Wallet, 0.50)
+    Gunslinger = Gambler(Casino, Wallet, 0.9)
 
     while Gunslinger.Wallet > 50:
         Gunslinger.action()

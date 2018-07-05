@@ -6,7 +6,7 @@ import numpy as np
 class Slot:
     
     def __init__(self):
-        self.mean = np.random.randint(45,55)
+        self.mean = np.random.randint(0,65)
         self.variance = np.sqrt(self.mean)
 
     def roll(self):
